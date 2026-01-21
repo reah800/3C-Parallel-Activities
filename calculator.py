@@ -45,3 +45,12 @@ display = tk.Entry(
     justify="right"
 )
 display.pack(fill="x", padx=10, pady=10)
+
+top_frame = tk.Frame(root, bg="#ffffff")
+top_frame.pack(pady=5)
+
+
+
+tk.Button(top_frame, text ="⌫", width=6, height=2,
+          bg="#f4a6a6", fg="white", font=("Arial", 14),
+          command= erase).grid(row=0, column=1, padx=5)
