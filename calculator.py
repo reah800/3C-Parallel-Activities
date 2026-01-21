@@ -3,14 +3,14 @@ import tkinter as tk
 def press(key):
     global expression
     expression += str(key)
-
-display_var.set(expression)
+    display_var.set(expression)
 
 def clear():
     global expression
-    expression= "" display_var.set("")
+    expression = ""
+    display_var.set("")
 
-    def erase():
+def erase():
     global expression
     expression = expression[:-1]
     display_var.set(expression)
@@ -82,3 +82,9 @@ for (text, row, col) in buttons:
 clear_btn = tk.Button(root, text="C", bg="red", fg="white",
                       font=("Arial", 14), command=clear)
 clear_btn.pack(fill="x", padx=10, pady=5)
+running = True
+while running:
+    try:
+        root.update()
+    except tk.TclError:
+        running = False
