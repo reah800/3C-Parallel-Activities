@@ -34,3 +34,14 @@ root.resizable(False, False)
 
 expression = ""
 display_var = tk.StringVar()
+
+display = tk.Entry(
+    root,
+    textvariable=display_var,
+    font=("Arial", 24),
+    bg="pink",
+    fg="white",
+    bd=10,
+    justify="right"
+)
+display.pack(fill="x", padx=10, pady=10)
