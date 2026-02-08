@@ -62,3 +62,21 @@ def run_multiprocessing(grades, tree, progress):
     tree.insert("", "end", values=("Multiprocessing", results, f"{overall_gwa:.2f}", f"{end - start:.6f}s"))
     progress.stop()
     progress['value'] = 100
+
+    # ---------- GUI Runner ----------
+def run_method(method, entry, tree, progress):
+    try:
+        grades = [int(x) for x in entry.get().split()]
+        if not grades:
+            raise ValueError("No grades entered")
+    except ValueError:
+        messagebox.showerror("Invalid Input", "Please enter valid integer grades separated by spaces.")
+        return
+
+    progress['value'] = 0
+    progress.start()
+
+    if method == "thread":
+        threading.Thread(target=lambda: run_multithreading(grades, tree, progress)).start()
+    elif method == "process":
+        threading.Thread(target=lambda: run_multiprocessing(grades, tree, progress)).start()
