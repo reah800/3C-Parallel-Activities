@@ -34,3 +34,31 @@ def run_multithreading(grades, tree, progress):
 
     end = time.time()
     overall_gwa = compute_gwa(grades)
+
+    tree.insert("", "end", values=("Multithreading", results, f"{overall_gwa:.2f}", f"{end - start:.6f}s"))
+    progress.stop()
+    progress['value'] = 100
+
+def run_multiprocessing(grades, tree, progress):
+    start = time.time()
+    queue = Queue()
+    processes = []
+
+    for grade in grades:
+        p = Process(target=process_worker, args=([grade], queue))
+        processes.append(p)
+        p.start()
+
+    for p in processes:
+        p.join()
+
+    results = []
+    while not queue.empty():
+        results.append(queue.get())
+
+    end = time.time()
+    overall_gwa = compute_gwa(grades)
+
+    tree.insert("", "end", values=("Multiprocessing", results, f"{overall_gwa:.2f}", f"{end - start:.6f}s"))
+    progress.stop()
+    progress['value'] = 100
