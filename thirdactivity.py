@@ -28,3 +28,25 @@ def compute_payroll(employee):
     net_salary = salary - total_deduction
     return (name, salary, total_deduction, net_salary)
 
+# GUI Functions
+def run_task_parallelism():
+    # Example: run for Alice(Task Parallelism)
+    name, salary = employees[0]  
+    tasks = [compute_sss, compute_philhealth, compute_pagibig, compute_tax]
+    results = []
+    output_text.delete("1.0", tk.END) 
+
+    output_text.insert(tk.END, f"Task Parallelism for {name} (Salary: {salary:.2f})\n\n")
+
+    with ThreadPoolExecutor() as executor:
+        future_to_task = {executor.submit(task, salary): task.__name__ for task in tasks}
+        for future in as_completed(future_to_task):
+            deduction = future.result()
+            results.append(deduction)
+            output_text.insert(tk.END, f"{future_to_task[future]}: {deduction:.2f}\n")
+
+    total_deduction = sum(results)
+    net_salary = salary - total_deduction
+
+    output_text.insert(tk.END, f"\nTotal Deduction for {name}: {total_deduction:.2f}\n")
+    output_text.insert(tk.END, f"Net Salary for {name}: {net_salary:.2f}\n")
