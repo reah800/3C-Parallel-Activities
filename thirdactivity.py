@@ -52,14 +52,16 @@ def run_task_parallelism():
     output_text.insert(tk.END, f"Net Salary for {name}: {net_salary:.2f}\n")
 
 
-        # Treeview for Data Parallelism 
-    columns = ("Employee", "Gross Salary", "Total Deduction", "Net Salary")
-    tree = ttk.Treeview(root, columns=columns, show="headings", height=5)
-    for col in columns:
-        tree.heading(col, text=col)
-        tree.column(col, width=150)
-    tree.pack(pady=10)
+def run_data_parallelism():
+    output_text.delete("1.0", tk.END)  
 
-    root.configure(bg="#be9d80")
+    
+    for row in tree.get_children():
+        tree.delete(row)
 
-    root.mainloop()
+    with ProcessPoolExecutor() as executor:
+        results = executor.map(compute_payroll, employees)
+
+    for name, gross, deduction, net in results:
+        
+        tree.insert("", tk.END, values=(name, f"{gross:.2f}", f"{deduction:.2f}", f"{net:.2f}"))
