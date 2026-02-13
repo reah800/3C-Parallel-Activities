@@ -50,3 +50,16 @@ def run_task_parallelism():
 
     output_text.insert(tk.END, f"\nTotal Deduction for {name}: {total_deduction:.2f}\n")
     output_text.insert(tk.END, f"Net Salary for {name}: {net_salary:.2f}\n")
+
+
+        # Treeview for Data Parallelism 
+    columns = ("Employee", "Gross Salary", "Total Deduction", "Net Salary")
+    tree = ttk.Treeview(root, columns=columns, show="headings", height=5)
+    for col in columns:
+        tree.heading(col, text=col)
+        tree.column(col, width=150)
+    tree.pack(pady=10)
+
+    root.configure(bg="#be9d80")
+
+    root.mainloop()
